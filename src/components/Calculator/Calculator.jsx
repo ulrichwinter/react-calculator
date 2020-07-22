@@ -12,7 +12,31 @@ class Calculator extends Component {
         storedValue: '',
     }
     callOperator = () => {
-        console.log('call operator');
+        let {selectedOperator, storedValue, displayValue} = this.state;
+
+        let value1 = parseFloat(storedValue);
+        let value2 = parseFloat(displayValue);
+
+        let result = 0;
+        if(selectedOperator === '+') {
+            result = value1 + value2;
+        } else if (selectedOperator === '-') {
+            result = value1 - value2;
+        } else if (selectedOperator === 'x') {
+            result = value1 * value2;
+        } else if (selectedOperator === '/') {
+            result = value1 / value2;
+        }
+    
+        if ( isNaN(result) || !isFinite(result)) {
+            result = 0;
+        }
+
+        displayValue = result.toString();
+        storedValue = '';
+        selectedOperator = '';
+
+        this.setState({selectedOperator, storedValue, displayValue});
     }
 
     setOperator = (operator) => {

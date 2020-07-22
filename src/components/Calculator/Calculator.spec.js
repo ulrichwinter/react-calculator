@@ -156,3 +156,61 @@ describe('setOperator', () => {
         expect(wrapper.state('storedValue')).toEqual('123');
     });
 });
+
+describe('callOperator', () => {
+    let wrapper;
+
+    beforeEach(() => wrapper = shallow(<Calculator />));
+
+    it('updates sum', () => {
+        wrapper.setState({storedValue: '3', displayValue: '2', selectedOperator: '+'});
+        wrapper.instance().callOperator();
+        expect(wrapper.state('displayValue')).toEqual('5');
+    });
+    it('cleares storedValue and selectedOperator', () => {
+        wrapper.setState({storedValue: '3', displayValue: '2', selectedOperator: '+'});
+        wrapper.instance().callOperator();
+        expect(wrapper.state('storedValue')).toEqual('');
+        expect(wrapper.state('selectedOperator')).toEqual('');
+    });
+    it('updates diff', () => {
+        wrapper.setState({storedValue: '3', displayValue: '2', selectedOperator: '-'});
+        wrapper.instance().callOperator();
+        expect(wrapper.state('displayValue')).toEqual('1');
+    });
+    it('updates product', () => {
+        wrapper.setState({storedValue: '3', displayValue: '2', selectedOperator: 'x'});
+        wrapper.instance().callOperator();
+        expect(wrapper.state('displayValue')).toEqual('6');
+    });
+    it('updates quotient', () => {
+        wrapper.setState({storedValue: '12', displayValue: '3', selectedOperator: '/'});
+        wrapper.instance().callOperator();
+        expect(wrapper.state('displayValue')).toEqual('4');
+    });
+    it('updates displayValue to 0 if result is NaN', () => {
+        wrapper.setState({storedValue: '12', displayValue: 'not a number', selectedOperator: '/'});
+        wrapper.instance().callOperator();
+        expect(wrapper.state('displayValue')).toEqual('0');
+    });
+    it('updates displayValue to 0 if result is Infinity', () => {
+        wrapper.setState({storedValue: '12', displayValue: '0', selectedOperator: '/'});
+        wrapper.instance().callOperator();
+        expect(wrapper.state('displayValue')).toEqual('0');
+    });
+    it('updates displayValue to 0 if selectedOperator is not known', () => {
+        wrapper.setState({storedValue: '12', displayValue: '0', selectedOperator: 'do-not-know'});
+        wrapper.instance().callOperator();
+        expect(wrapper.state('displayValue')).toEqual('0');
+    });
+    it('updates displayValue to 0 if selectedOperator is not set', () => {
+        wrapper.setState({storedValue: '12', displayValue: '0', selectedOperator: ''});
+        wrapper.instance().callOperator();
+        expect(wrapper.state('displayValue')).toEqual('0');
+    });
+    it('updates displayValue to 0 if storedValue is not set', () => {
+        wrapper.setState({storedValue: '', displayValue: '0', selectedOperator: '+'});
+        wrapper.instance().callOperator();
+        expect(wrapper.state('displayValue')).toEqual('0');
+    });
+});
