@@ -5,7 +5,7 @@ import './Key.css';
 const Key = ({keyAction, keyType, keyValue}) => (
     <div 
         className={'key-container '+keyType}
-        onClick={() => keyAction(keyType)}
+        onClick={() => keyAction(keyValue)}
     >
         <p className="key-value">
             {keyValue}

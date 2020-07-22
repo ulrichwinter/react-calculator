@@ -19,8 +19,26 @@ class Calculator extends Component {
         console.log('set operator');
     }
 
-    updateDisplay = () => {
-        console.log('update display');
+    updateDisplay = (value) => {
+        let {displayValue} = this.state;
+        
+        if (value === 'ce') {
+            displayValue = displayValue.substr(0, displayValue.length-1);
+        } else if(value === '.') {
+            if(displayValue.indexOf('.') < 0) {
+                displayValue = displayValue + value;
+            }
+        } else if(displayValue !== '0') {
+            displayValue = displayValue + value;
+        } else {
+            displayValue = value;
+        }
+
+        if(displayValue.length === 0) {
+            displayValue = '0';
+        }   
+
+        this.setState({displayValue});
     }
 
     render = () => {
